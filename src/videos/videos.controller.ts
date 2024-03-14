@@ -1,18 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
-import { CLIENT_RENEG_LIMIT } from 'tls';
 
 @Controller('videos')
+@UsePipes(new ValidationPipe())//parte para tomar la validación del "DTO"
 export class VideosController {
   constructor(private readonly videosService: VideosService) {}
 
-  @Post() //cuando se
-  create(@Body() body:any) {
-    console.log(body)
-    return 'hola';
-    // return this.videosService.create(createVideoDto);
+  @Post() //cuando se envia información, se establece la relación
+  create(@Body() createVideoDto: CreateVideoDto) {
+    console.log(createVideoDto)
+    return this.videosService.create(createVideoDto);
   }
 
   @Get() //Todo http://localhost:3000/videos?id=1&descripcion=holamundo

@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes, Val
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
+//Libreria para la parte de agregado por categorización de las API
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('videos')
@@ -29,12 +30,12 @@ export class VideosController {
     return this.videosService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch(':id')//Esto para actualizar todo un cuerpo mediante el id
   update(@Param('id') id: string, @Body() updateVideoDto: UpdateVideoDto) {
     return this.videosService.update(+id, updateVideoDto);
   }
 
-  @Delete(':id')
+  @Delete(':id')//este si es par eliminar del sistema
   remove(@Param('id') id: string) {
     return this.videosService.remove(+id);
   }

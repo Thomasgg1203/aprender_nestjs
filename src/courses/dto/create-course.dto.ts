@@ -4,7 +4,6 @@ import { IsNotEmpty, IsUrl, Length } from "class-validator";
 export class CreateCourseDto {
 
     @ApiProperty()//uso para que salga el esquema en la documentacion
-    
     @IsNotEmpty()
     title: string
 

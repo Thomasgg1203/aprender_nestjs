@@ -16,7 +16,6 @@ import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { title } from 'process';
 import { SlugPipe } from './pipes/slug.pipe';
 
 @ApiTags('courses')//Agregacion para la parte visual "http://localhost:doc".

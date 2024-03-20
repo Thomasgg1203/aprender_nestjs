@@ -16,7 +16,12 @@ import { join } from 'path';
       //Para que funcione en toda la aplicación
       isGlobal:true
     }),
-
+    /*
+    Uso del apartado de excepciones, si hay alguna url que no sea una
+    funcion del sistema, se enviara al archivo public para empezar 
+    ejecutar un archivo index.hmtl para proporcionar información de 
+    contacto.
+    */
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),

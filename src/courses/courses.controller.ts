@@ -5,13 +5,15 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('courses')
-@ApiBearerAuth()
+@ApiBearerAuth()//Apartado para colocar autorización con token
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
   @Post()
+  // @ApiBearerAuth()Si solo se quiere uno, se coloca aquí
   create(@Body() createCourseDto: CreateCourseDto) {
+    console.log('_______Currency_______', process.env.CURRENCY)
     return this.coursesService.create(createCourseDto);
   }
 

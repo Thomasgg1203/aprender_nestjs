@@ -12,10 +12,9 @@ export class CoursesService {
     return `This action returns all courses`;
   }
 
-  findOne(id: number) {
+  findOne(id: any) {//uso por el momento del operador any
     return `This action returns a #${id} course`;
   }
-
   update(id: number, updateCourseDto: UpdateCourseDto) {
     return `This action updates a #${id} course`;
   }

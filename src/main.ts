@@ -36,7 +36,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('doc', app, document);
   console.log('___ENV___', process.env.PORT);
-  app.setGlobalPrefix('api'); //Parte para volver en el enrutamiento global /api
+  // app.setGlobalPrefix('api'); //Parte para volver en el enrutamiento global /api
 
   //esto para validar toda la aplicación de manera global
   app.useGlobalPipes(new ValidationPipe());

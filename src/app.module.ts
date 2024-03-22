@@ -11,10 +11,12 @@ import { join } from 'path';
 
 @Module({
   imports: [
+    //Password de la base de datos
+    //-----------Th0mas123*------------
     //Modulo de la configuracion del .env <(Con su metodo estatico forRoot())>
     ConfigModule.forRoot({
       //Para que funcione en toda la aplicación
-      isGlobal:true
+      isGlobal: true
     }),
     /*
     Uso del apartado de excepciones, si hay alguna url que no sea una
@@ -27,9 +29,9 @@ import { join } from 'path';
     }),
 
     //Modulos de las demas entidades
-    CoursesModule, 
-    AuthModule, 
-    VideosModule, 
+    CoursesModule,
+    AuthModule,
+    VideosModule,
     AwardsModule],
   controllers: [AppController],
   providers: [AppService],

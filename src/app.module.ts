@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { UsersModule } from './users/users.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -19,6 +20,10 @@ import { UsersModule } from './users/users.module';
       //Para que funcione en toda la aplicación
       isGlobal: true
     }),
+    /**
+     * Apartado donde se encontrara conectado la base de datos
+     */
+    MongooseModule.forRoot(process.env.DB_URI),
     /*
     Uso del apartado de excepciones, si hay alguna url que no sea una
     funcion del sistema, se enviara al archivo public para empezar 

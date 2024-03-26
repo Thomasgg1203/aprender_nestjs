@@ -1,16 +1,16 @@
-import { 
-  Controller, 
-  Get, 
-  Post, 
-  Body, 
-  Patch, 
-  Param, 
-  Delete, 
-  HttpCode, 
-  HttpException, 
-  HttpStatus, 
-  ParseArrayPipe, 
-  ParseIntPipe 
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpCode,
+  // HttpException,
+  // HttpStatus,
+  // ParseArrayPipe,
+  // ParseIntPipe
 } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -18,8 +18,8 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SlugPipe } from './pipes/slug.pipe';
 
-@ApiTags('courses')//Agregacion para la parte visual "http://localhost:doc".
-@ApiBearerAuth()//Apartado para colocar autorización con token en la documentación del sistema OEE.
+@ApiTags('courses') //Agregacion para la parte visual "http://localhost:doc".
+@ApiBearerAuth() //Apartado para colocar autorización con token en la documentación del sistema OEE.
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
@@ -36,7 +36,7 @@ export class CoursesController {
   // }
   @Post()
   @HttpCode(201)
-  create(@Body() CreateCourseDto: CreateCourseDto){
+  create(@Body() CreateCourseDto: CreateCourseDto) {
     return this.coursesService.create(CreateCourseDto);
   }
 
@@ -53,7 +53,7 @@ export class CoursesController {
   // //excepciones con Not_acceptable.
   // @Get(':id') //Parte del parceo con ejemplo de excepcion con http
   // findOne(@Param('id', new ParseIntPipe({
-  //    errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE 
+  //    errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE
   //   }))
   //   id: string) {
   //   return this.coursesService.findOne(+id);
@@ -61,9 +61,9 @@ export class CoursesController {
 
   //excepciones con la libreria o decorador PIPES
   //Uso de la libreria SlugPipe con llamado en otra carpeta, para la transformacion de url
-  @Get(':title') 
+  @Get(':title')
   findOne(@Param('title', new SlugPipe()) title: string) {
-    console.log('_____TITLE_____', title)
+    console.log('_____TITLE_____', title);
     return this.coursesService.findOne(+title);
   }
 

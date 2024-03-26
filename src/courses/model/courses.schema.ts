@@ -6,17 +6,16 @@ import mongoose, { Document } from 'mongoose';
  * en este apartado
  */
 export type CourseDocument = Course & Document;
-
 @Schema()
 export class Course {
-  @Prop({ required: true })
+  @Prop()
   name: string;
 
   @Prop()
   price: number;
 
-  @Prop()
-  idAuthor: mongoose.Types.ObjectId;
+  // @Prop()
+  // idAuthor: mongoose.Types.ObjectId;
 
   @Prop()
   description: string;

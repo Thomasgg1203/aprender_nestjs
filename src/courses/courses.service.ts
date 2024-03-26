@@ -4,15 +4,17 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Course } from './model/courses.schema';
 import { Model } from 'mongoose';
+import { User, UserDocument } from 'src/users/model/user.schema';
 
 @Injectable()
 export class CoursesService {
   //Esta parte es la encargada de trabajar con la base de datos
-  constructor(@InjectModel(Course.name) private courseModel: Model<Course>) {
-
-  }
+  constructor(@InjectModel(Course.name) private courseModel: Model<Course>,
+  @InjectModel(User.name) private userModel: Model<UserDocument>
+  ) {}
 
   create(createCourseDto: CreateCourseDto) {
+    const user = this.userModel.find();
     return this.courseModel.create(createCourseDto);
   }
 

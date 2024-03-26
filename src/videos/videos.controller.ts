@@ -21,13 +21,16 @@ import { ApiTags } from '@nestjs/swagger';
 import { LoggerInterceptor } from 'src/utils/logger.interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/utils/media.handle';
+import { CoursesService } from 'src/courses/courses.service';
 
 @ApiTags('videos')
 @UseInterceptors(LoggerInterceptor)// Practicamente es para decirle que intercepte todo lo de este controlador
 @Controller('videos')
 @UsePipes(new ValidationPipe())//parte para tomar la validación del "DTO"
 export class VideosController {
-  constructor(private readonly videosService: VideosService) { }
+  constructor(private readonly videosService: VideosService,
+    private readonly coursesService:CoursesService
+    ) { }
 
   @Post() //cuando se envia información, se establece la relación
   create(@Body() createVideoDto: CreateVideoDto) {

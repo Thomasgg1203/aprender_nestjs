@@ -5,11 +5,14 @@ import { User, UserDocument } from 'src/users/model/user.schema';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { compareHash, generateHash } from './utils/handleBcrypt';
 import { LoginAuthDto } from './dto/login-auth.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
     //Recordar el constructor para hacer la inyeccion a la base de datos
     constructor(
+        //Parte de importacion para el token
+        private readonly jwtService: JwtService,
         @InjectModel(User.name) private readonly userModel:Model<UserDocument>
     ) {}
 
@@ -28,10 +31,25 @@ export class AuthService {
         const isCheck = await compareHash(password, userExist.password);
         if(!isCheck) throw new HttpException('PASSWORD_INVALID', HttpStatus.CONFLICT);
         
+        //Paso para eliminar los datos que se vayan enviar en rspuesta al ingreso
         const userFlat = userExist.toObject();
         delete userFlat.password;
 
-        return userFlat;
+        //Busqueda del id del usario
+        const  payoad = {
+            id:userFlat._id
+        }
+
+        //Generacion de token
+        const token = this.jwtService.sign(payoad)
+
+        const data = {
+            token: token,
+            user: userFlat
+        }
+
+        //Devuelve la parte del usuario sin contraseña.
+        return data;
     }
 
     //Metodo publico para resivir el registro

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   HttpCode,
+  UseGuards,
   // HttpException,
   // HttpStatus,
   // ParseArrayPipe,
@@ -17,10 +18,12 @@ import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SlugPipe } from './pipes/slug.pipe';
+import { BrowserAgentGuard } from 'src/guards/browser-agent.guard';
 
 @ApiTags('courses') //Agregacion para la parte visual "http://localhost:doc".
 @ApiBearerAuth() //Apartado para colocar autorización con token en la documentación del sistema OEE.
 @Controller('courses')
+@UseGuards(BrowserAgentGuard)
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 

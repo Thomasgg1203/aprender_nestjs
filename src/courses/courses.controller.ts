@@ -12,7 +12,8 @@ import {
   // HttpStatus,
   // ParseArrayPipe,
   // ParseIntPipe
-  Req
+  Req,
+  SetMetadata
 } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -22,10 +23,13 @@ import { SlugPipe } from './pipes/slug.pipe';
 import { BrowserAgentGuard } from 'src/guards/browser-agent.guard';
 import { JwtGuardGuard } from 'src/guards/jwt-guard/jwt-guard.guard';
 import { Request } from 'express';
+import { RolesGuardGuard } from 'src/guards/roles-guard/roles-guard.guard';
+import { Rol } from 'src/decorations/rol.decorator';
 
 @ApiTags('courses') //Agregacion para la parte visual "http://localhost:doc".
 @ApiBearerAuth() //Apartado para colocar autorización con token en la documentación del sistema OEE.
-@UseGuards(JwtGuardGuard)//Uso del guardian
+// @UseGuards(JwtGuardGuard, new RolesGuardGuard('admin'))//Uso del guardian
+@UseGuards(JwtGuardGuard, RolesGuardGuard)//Uso del guardian
 @Controller('courses')
 @UseGuards(BrowserAgentGuard)
 export class CoursesController {
@@ -43,12 +47,17 @@ export class CoursesController {
   // }
   @Post()
   @HttpCode(201)
+  //Aqui se usa la implementacion del uso del rol
+  // @SetMetadata('rol', ['Admin'])
+  @Rol(['Admin'])
   create(@Req() req:Request, @Body() CreateCourseDto: CreateCourseDto) {
-    console.log(req.user)
+    // console.log(req.user)
     return this.coursesService.create(CreateCourseDto);
   }
 
   @Get()
+  // @SetMetadata('rol', ['Admin', 'Manager'])
+  @Rol(['user', 'Admin'])
   findAll() {
     return this.coursesService.findAll();
   }

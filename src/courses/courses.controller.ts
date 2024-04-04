@@ -12,6 +12,7 @@ import {
   // HttpStatus,
   // ParseArrayPipe,
   // ParseIntPipe
+  Req
 } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -19,9 +20,12 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SlugPipe } from './pipes/slug.pipe';
 import { BrowserAgentGuard } from 'src/guards/browser-agent.guard';
+import { JwtGuardGuard } from 'src/guards/jwt-guard/jwt-guard.guard';
+import { Request } from 'express';
 
 @ApiTags('courses') //Agregacion para la parte visual "http://localhost:doc".
 @ApiBearerAuth() //Apartado para colocar autorización con token en la documentación del sistema OEE.
+@UseGuards(JwtGuardGuard)//Uso del guardian
 @Controller('courses')
 @UseGuards(BrowserAgentGuard)
 export class CoursesController {
@@ -39,7 +43,8 @@ export class CoursesController {
   // }
   @Post()
   @HttpCode(201)
-  create(@Body() CreateCourseDto: CreateCourseDto) {
+  create(@Req() req:Request, @Body() CreateCourseDto: CreateCourseDto) {
+    console.log(req.user)
     return this.coursesService.create(CreateCourseDto);
   }
 

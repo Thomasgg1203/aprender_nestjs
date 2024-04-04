@@ -16,9 +16,9 @@ export class BrowserAgentGuard implements CanActivate {
     const userAgent = req.headers['user-agent'];
     const isAllowed = (userAgent === 'google/chrome')
 
-    if(!isAllowed) throw new HttpException('BROWSER_AGENT_INVALID', HttpStatus.BAD_REQUEST);
+    // if(!isAllowed) throw new HttpException('BROWSER_AGENT_INVALID', HttpStatus.BAD_REQUEST);
 
-    return isAllowed;
+    return true;
 
     // if(userAgent !== 'google/chrome'){
     //   return false;

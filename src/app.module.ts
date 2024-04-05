@@ -10,6 +10,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -33,13 +34,14 @@ import { MongooseModule } from '@nestjs/mongoose';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
-
+    //Apartado 
+    EventEmitterModule.forRoot(),
     //Modulos de las demas entidades
     CoursesModule,
     AuthModule,
     VideosModule,
     AwardsModule,
-    UsersModule],
+    UsersModule,],
   controllers: [AppController],
   providers: [AppService],
 })

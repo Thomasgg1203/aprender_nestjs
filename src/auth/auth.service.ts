@@ -13,6 +13,7 @@ export class AuthService {
     constructor(
         //Parte de importacion para el token
         private readonly jwtService: JwtService,
+        // private readonly 
         @InjectModel(User.name) private readonly userModel:Model<UserDocument>
     ) {}
 
@@ -59,6 +60,9 @@ export class AuthService {
         const userParse = {
             ...user, password: await generateHash(password)
         }
-        return this.userModel.create(userParse);
+
+        const newUser = await this.userModel.create(userParse);
+
+        return newUser;
     }
 }

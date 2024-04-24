@@ -6,6 +6,7 @@ import { RegisterAuthDto } from './dto/register-auth.dto';
 import { compareHash, generateHash } from './utils/handleBcrypt';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { JwtService } from '@nestjs/jwt';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,7 @@ export class AuthService {
     constructor(
         //Parte de importacion para el token
         private readonly jwtService: JwtService,
-        // private readonly 
+        private readonly eventEmitter: EventEmitter2,
         @InjectModel(User.name) private readonly userModel:Model<UserDocument>
     ) {}
 
@@ -44,10 +45,13 @@ export class AuthService {
         //Generacion de token
         const token = this.jwtService.sign(payoad)
 
+
         const data = {
             token: token,
             user: userFlat
         }
+
+        this.eventEmitter.emit('user.loguin', data);//Emite el mensaje
 
         //Devuelve la parte del usuario sin contraseña.
         return data;
@@ -62,6 +66,9 @@ export class AuthService {
         }
 
         const newUser = await this.userModel.create(userParse);
+
+        this.eventEmitter.emit('user.created', newUser);//Este es el envio de datos
+          
 
         return newUser;
     }

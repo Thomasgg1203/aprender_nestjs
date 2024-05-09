@@ -6,7 +6,7 @@ import { Course } from './model/courses.schema';
 import { Model, Types } from 'mongoose';
 import { User, UserDocument } from 'src/users/model/user.schema';
 
-interface ModelExt<T> extends Model<T> {
+interface ModelExt<T> extends Model<T> {//funcion para elaborar el eliminado logico
   delete: Function
 }
 
@@ -14,6 +14,7 @@ interface ModelExt<T> extends Model<T> {
 export class CoursesService {
   //Esta parte es la encargada de trabajar con la base de datos
   constructor(@InjectModel(Course.name) private courseModel: ModelExt<Course>,
+  //Injeccion de datos por parte del modelo del schema.
   @InjectModel(User.name) private userModel: Model<UserDocument>
   ) {}
 
@@ -22,7 +23,7 @@ export class CoursesService {
     return this.courseModel.create(createCourseDto);
   }
 
-  async findAll() {
+  async findAll() {//Funcion para retornar todo el apartado de los cursos
     const list = await this.courseModel.find({});
     return list;
   }
@@ -30,13 +31,15 @@ export class CoursesService {
   findOne(id: any) {//uso por el momento del operador any
     return `This action returns a #${id} course`;
   }
-  update(id: number, updateCourseDto: UpdateCourseDto) {
+
+  update(id: string, updateCourseDto: UpdateCourseDto) {//para actualizar los datos
+    const curse = this.courseModel.findById({ _id: id }).exec();
     return `This action updates a #${id} course`;
   }
 
   async remove(id: string) {
-    const _id = new Types.ObjectId(id)
-    const response = this.courseModel.delete({_id})
-    return response;
+    const _id = new Types.ObjectId(id)//Tomando el id
+    const response = this.courseModel.delete({_id})//solamente se implementa esta logica
+    return response;//Dice que lo borra, pero solo es el borrado logico del sistema
   }
 }

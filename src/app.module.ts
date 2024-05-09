@@ -24,8 +24,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     /**
      * Apartado donde se encontrara conectado la base de datos
      */
-    MongooseModule.forRoot(process.env.DB_URI,{
-      connectionFactory: (connection) => {
+    MongooseModule.forRoot(process.env.DB_URI,{//Apartado para implementar el plugin delete 
+      connectionFactory: (connection) => {//de manera global
       connection.plugin(require('mongoose-delete'), { overrideMethods: 'all' });
       return connection;
       }

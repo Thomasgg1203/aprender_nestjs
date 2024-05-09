@@ -11,8 +11,8 @@ import { User, UserSchema } from 'src/users/model/user.schema';
     MongooseModule.forFeature([
       {name:User.name, schema: UserSchema}
     ]),
-    MongooseModule.forFeatureAsync([{
-          name:Course.name,
+    MongooseModule.forFeatureAsync([{//forma para implementar el pluguin delete de manera 
+          name:Course.name,          //para un solo schema
           useFactory: () => {
             const schema = CourseSchema
             const pluguinOption = { overrideMethods: 'all' }

@@ -9,9 +9,17 @@ import { User, UserSchema } from 'src/users/model/user.schema';
   //Parte de la importacion del schema del objeto
   imports: [
     MongooseModule.forFeature([
-      {name:Course.name, schema: CourseSchema},
       {name:User.name, schema: UserSchema}
-    ])
+    ]),
+    MongooseModule.forFeatureAsync([{
+          name:Course.name,
+          useFactory: () => {
+            const schema = CourseSchema
+            const pluguinOption = { overrideMethods: 'all' }
+            schema.plugin(require('mongoose-delete'), pluguinOption)
+            return schema;
+          }
+    }]),
   ],
   controllers: [CoursesController],
   providers: [CoursesService],

@@ -13,7 +13,7 @@ import {
   // ParseArrayPipe,
   // ParseIntPipe
   Req,
-  SetMetadata
+  // SetMetadata
 } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -91,7 +91,9 @@ export class CoursesController {
   }
 
   @Delete(':id')
+  @HttpCode(201)
+  @Rol(['user', 'Admin'])
   remove(@Param('id') id: string) {
-    return this.coursesService.remove(+id);
+    return this.coursesService.remove(id);
   }
 }

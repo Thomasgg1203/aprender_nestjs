@@ -46,7 +46,7 @@ export class AuthService {
         const token = this.jwtService.sign(payoad)
 
 
-        const data = {
+        const data = {//reConstrucción de envio de datos.
             token: token,
             user: userFlat
         }

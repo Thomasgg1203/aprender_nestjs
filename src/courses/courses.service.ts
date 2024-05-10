@@ -33,7 +33,7 @@ export class CoursesService {
   }
 
   update(id: string, updateCourseDto: UpdateCourseDto) {//para actualizar los datos
-    const curse = this.courseModel.findById({ _id: id }).exec();
+    // const curse = this.courseModel.findById({ _id: id }).exec();
     return `This action updates a #${id} course`;
   }
 

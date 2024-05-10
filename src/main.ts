@@ -43,3 +43,6 @@ async function bootstrap() {
   await app.listen(3000);
 }
 bootstrap();
+
+//Pagina para los emails de prueba para hacer pruebas: 
+// https://mailtrap.io/inboxes/2871209/messages 

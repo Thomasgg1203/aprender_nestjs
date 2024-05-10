@@ -11,6 +11,7 @@ import { join } from 'path';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -46,7 +47,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     AuthModule,
     VideosModule,
     AwardsModule,
-    UsersModule,],
+    UsersModule,
+    MailModule,],
   controllers: [AppController],
   providers: [AppService],
 })

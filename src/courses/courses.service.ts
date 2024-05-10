@@ -24,8 +24,33 @@ export class CoursesService {
   }
 
   async findAll() {//Funcion para retornar todo el apartado de los cursos
-    const list = await this.courseModel.find({});
-    return list;
+    //Toda esta coleccion se esta trabajando en los cursos.
+    const list = this.courseModel.aggregate([
+      {
+        $lookup:{//metodo lookup, permite consultar.
+          from: 'users', // Nombre de la colección secundaria
+          foreignField: 'id', // Campo en la colección secundaria para la unión
+          localField: 'idAuthor', // Campo en la colección principal para la unión
+          as: 'author', // Alias para los resultados de la unión
+          pipeline: [//Aqui esta actuando sobre la coleccion de users
+            {
+              $project: {
+                _id: 0,
+                name: 1,
+                email: 1,
+                avatar: 1,
+              }
+            }
+          ],
+        },
+      },
+      {
+        $unionWith: '$author',
+      },
+    ])
+
+    // const list = await this.courseModel.find({});
+    // return list;
   }
 
   findOne(id: any) {//uso por el momento del operador any

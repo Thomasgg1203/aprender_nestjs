@@ -14,7 +14,8 @@ async function generateHash(passwordPlain: string): Promise<string>{
 }
 
 /**
- * Esta funcion
+ * Esta funcion es para compara el hash de la base de datos y luego compararlo
+ * a ver si esta bien o si se equivoco en algun valor del hash.
  */
 
 async function compareHash(plain:string , hash:string): Promise<string>{

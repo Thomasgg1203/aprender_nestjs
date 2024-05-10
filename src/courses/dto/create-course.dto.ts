@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsUrl, Length } from 'class-validator';
+import { IsNotEmpty, IsUUID, IsUrl, Length } from 'class-validator';
 
 export class CreateCourseDto {
   @ApiProperty() //uso para que salga el esquema en la documentacion
@@ -9,6 +9,11 @@ export class CreateCourseDto {
   @ApiProperty() //cada uno, para que se muestre
   @IsNotEmpty()
   price: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsUUID()
+  idAuthor: string;
 
   @ApiProperty({
     description: 'Se describe la parte del uso del curso',

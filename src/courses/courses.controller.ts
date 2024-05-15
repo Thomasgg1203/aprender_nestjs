@@ -19,7 +19,7 @@ import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { SlugPipe } from './pipes/slug.pipe';
+// import { SlugPipe } from './pipes/slug.pipe';
 import { BrowserAgentGuard } from 'src/guards/browser-agent.guard';
 import { JwtGuardGuard } from 'src/guards/jwt-guard/jwt-guard.guard';
 import { Request } from 'express';

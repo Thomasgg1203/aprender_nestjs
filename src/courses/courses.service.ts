@@ -28,6 +28,7 @@ export class CoursesService {
     return await this.courseModel.findAllCourses();
   }
 
+  //metodo para buscar por id al curso unico, devolviendo asi solamente un curso.
   async findOne(id: string) {//uso por el momento del operador any
       return this.courseModel.aggregate([
         {
@@ -76,6 +77,7 @@ export class CoursesService {
     });
   }
 
+  //Este es para remover los datos del curso o bueno de la base de datos.
   async remove(id: string) {
     const _id = new Types.ObjectId(id)//Tomando el id
     const response = this.courseModel.delete({_id})//solamente se implementa esta logica

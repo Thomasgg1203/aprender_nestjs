@@ -7,7 +7,8 @@ import { Model, Types } from 'mongoose';
 import { User, UserDocument } from 'src/users/model/user.schema';
 
 interface ModelExt<T> extends Model<T> {//funcion para elaborar el eliminado logico
-  delete: Function
+  delete: Function,
+  findAllCourses: Function
 }
 
 @Injectable()
@@ -24,42 +25,55 @@ export class CoursesService {
   }
 
   async findAll() {//Funcion para retornar todo el apartado de los cursos
-    //Toda esta coleccion se esta trabajando en los cursos.
-    const list = this.courseModel.aggregate([
-      {
-        $lookup:{//metodo lookup, permite consultar.
-          from: 'users', // Nombre de la colección secundaria
-          foreignField: 'id', // Campo en la colección secundaria para la unión
-          localField: 'idAuthor', // Campo en la colección principal para la unión
-          as: 'author', // Alias para los resultados de la unión
-          pipeline: [//Aqui esta actuando sobre la coleccion de users
-            {
-              $project: {
-                _id: 0,
-                name: 1,
-                email: 1,
-                avatar: 1,
-              }
-            }
-          ],
+    return await this.courseModel.findAllCourses();
+  }
+
+  async findOne(id: string) {//uso por el momento del operador any
+      return this.courseModel.aggregate([
+        {
+          $match: {
+            id: id
+          }
         },
-      },
-      {
-        $unionWith: '$author',
-      },
-    ])
-
-    // const list = await this.courseModel.find({});
-    // return list;
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'idAuthor',
+            foreignField: 'id',
+            as: 'author'
+          }
+        },
+        {
+          $unwind: {
+            path: "$author",
+            preserveNullAndEmptyArrays: true
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            id: 1,
+            name: 1,
+            price: 1,
+            description: 1,
+            cover: 1,
+            author: {
+              name: 1,
+              email: 1,
+              avatar: 1
+            }
+          }
+        }
+      ]);    
   }
 
-  findOne(id: any) {//uso por el momento del operador any
-    return `This action returns a #${id} course`;
-  }
-
-  update(id: string, updateCourseDto: UpdateCourseDto) {//para actualizar los datos
+  //Actualizar sistema de forma que traiga y actualice los datos. 
+  async update(id: string, updateCourseDto: UpdateCourseDto) {//para actualizar los datos
     // const curse = this.courseModel.findById({ _id: id }).exec();
-    return `This action updates a #${id} course`;
+    return await this.courseModel.findOneAndUpdate({id}, updateCourseDto, {
+      upsert: true, //Esta parte es para que haga la insercion de datos.
+      new: true //Si esto no llega a existir lo va crear
+    });
   }
 
   async remove(id: string) {

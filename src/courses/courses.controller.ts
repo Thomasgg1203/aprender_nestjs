@@ -78,14 +78,19 @@ export class CoursesController {
 
   //excepciones con la libreria o decorador PIPES
   //Uso de la libreria SlugPipe con llamado en otra carpeta, para la transformacion de url
-  @Get(':title')
-  findOne(@Param('title', new SlugPipe()) title: string) {
-    console.log('_____TITLE_____', title);
-    return this.coursesService.findOne(+title);
+  // @Get(':title')
+  // findOne(@Param('title', new SlugPipe()) title: string) {
+  //   console.log('_____TITLE_____', title);
+  //   return this.coursesService.findOne(+title);
+  // }
+  @Get(':id')
+  @Rol(['user', 'Admin'])
+  finOne(@Param('id') id: string){
+    return this.coursesService.findOne(id);
   }
-
   //Metodo de actualizacion
   @Patch(':id')
+  @Rol(['user', 'Admin'])
   update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
     return this.coursesService.update(id, updateCourseDto);
   }

@@ -30,3 +30,78 @@ export class Course {
 }
 
 export const CourseSchema = SchemaFactory.createForClass(Course);
+/**
+ * 
+ * Este sistema no funciona apropiadamente, hecharle un ojo.
+ */
+
+// // //Toda esta coleccion se esta trabajando en los cursos.
+CourseSchema.statics.findAllCourses = function(){
+  const list = this.aggregate([
+    {
+      $match: {
+        deleted: false
+      }
+    },
+    {
+      $lookup:{//metodo lookup, permite consultar.
+        from: 'users', // Nombre de la colección secundaria
+        foreignField: 'id', // Campo en la colección secundaria para la unión
+        localField: 'idAuthor', // Campo en la colección principal para la unión
+        as: 'author', // Alias para los resultados de la unión
+        pipeline: [//Aqui esta actuando sobre la coleccion de users
+          {
+            $project: {
+              _id: 0,
+              name: 1,
+              email: 1,
+              avatar: 1,
+            }
+          }
+        ],
+      },
+    },
+    {
+      $unwind: {
+        path: '$author',
+        preserveNullAndEmptyArrays: true
+      }
+    },
+  ]
+)
+  return list; 
+}
+
+// CourseSchema.statics.findAllCourses = function(){
+//   return this.aggregate([
+//     {
+//       $lookup: {
+//         from: 'users',
+//         localField: 'idAuthor',
+//         foreignField: 'id',
+//         as: 'author'
+//       }
+//     },
+//     {
+//       $unwind: {
+//         path: "$author",
+//         preserveNullAndEmptyArrays: true
+//       }
+//     },
+//     {
+//       $project: {
+//         _id: 0,
+//         id: 1,
+//         name: 1,
+//         price: 1,
+//         description: 1,
+//         cover: 1,
+//         'author.name': 1,
+//         'author.email': 1,
+//         'author.avatar': 1
+//       }
+//     }
+//   ]);
+// }
+
+
